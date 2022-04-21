@@ -13,15 +13,13 @@ public class AsyncProgram {
     private static final ExecutorService executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
 
     public static void main(String[] args) {
-        IntStream.rangeClosed(1, 100).forEach(n -> {
-                    String threadName = Thread.currentThread().getName();
-                    //log.info("sync : " + threadName + " : start " + n + " th");
+        /*IntStream.rangeClosed(1, 100).forEach(n -> {
                     executor.submit(() -> asyncTask(n));
-                    //executor.execute(AsyncProgram::asyncTask(n));  // 변경점
-                    //log.info("sync : " + threadName + " : end " + n + " th");
                 }
-        );
+        );*/
 
+        AsyncCall call = new AsyncCall();
+        call.startTask();
     }
 
     private static void asyncTask(int n){
