@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -36,6 +37,10 @@ public class Elevator {
     private Integer maxRange;
 
     @Column(nullable = false)
-    private Integer[] dest;
+    private List<Integer> dest;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    private Building building;
 
 }
