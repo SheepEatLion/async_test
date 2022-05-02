@@ -5,7 +5,6 @@ import com.example.async_test.domain.enums.State;
 import com.example.async_test.domain.enums.Status;
 import com.example.async_test.domain.enums.LiftType;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Elevator {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -47,10 +46,11 @@ public class Elevator {
     private Integer maxRange;
 
     @Column(nullable = false)
+    @ElementCollection(targetClass = Integer.class)
     private List<Integer> destinations;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn
     private Building building;
 
 
@@ -68,23 +68,28 @@ public class Elevator {
         elevator.maxRange = maxRange;
         elevator.destinations = null;
         elevator.building = building;
+        log.info("새로운 엘리베이터를 만들었습니다.");
         return elevator;
     }
 
     public void openDoor(){
         this.door = Door.OPEN;
+        log.info("문이 열립니다.");
     }
 
     public void closeDoor(){
         this.door = Door.CLOSE;
+        log.info("문이 닫힙니다.");
     }
 
     public void changeState(State state){
         this.state = state;
+        log.info(state + "상태로 변경되었습니다.");
     }
 
     public void addDest(Integer dest){
         this.destinations.add(dest);
+        log.info(dest + "층이 입력되었습니다.");
     }
 
     public void removeDest(Integer dest){
